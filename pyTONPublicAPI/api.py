@@ -45,11 +45,20 @@ class pyTONPublicAPI:
         if not resp:
             if self.print_errors:
                 print("None request response")
-            raise pyTONException(-1, "None request response")
-        elif not resp.get('ok'):
-            if self.print_errors:
-                print("Response: {}".format(resp))
-            raise pyTONException(resp.get('code'), resp.get('description'))
+            raise pyTONException(-2, "None request response")
+        elif not resp.get("ok"):
+            if ("error_code" in resp):
+                if self.print_errors:
+                    print("Response: {}".format(resp))
+                raise pyTONException(resp.get("error_code"), "Error code")
+            elif ("code" in resp):
+                if self.print_errors:
+                    print("Response: {}".format(resp))
+                raise pyTONException(resp.get("code"), resp.get("description"))
+            else:
+                if self.print_errors:
+                    print("Response: {}".format(resp))
+                raise pyTONException(-3, "Unknown response format, enable 'print_errors' to see response")
         else:
             return resp
 
