@@ -40,7 +40,9 @@ class pyTONPublicAPI:
         if use_address and not data.get("address"):
             raise pyTONException(-1, "No address given")
         resp = requests.get(url=self.api_url + method, data=data).json()
-        if not resp.get('ok'):
+        if not resp:
+            raise pyTONException(-1, "None request responce")
+        elif not resp.get('ok'):
             raise pyTONException(resp.get('code'), resp.get('description'))
         else:
             return resp
