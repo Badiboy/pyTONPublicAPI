@@ -1,4 +1,7 @@
-from api import pyTONPublicAPI
+try:
+    from pyTONPublicAPI import pyTONPublicAPI
+except:
+    from api import pyTONPublicAPI
 
 client = pyTONPublicAPI(address = "EQA70Y6kLmQ_5tFEEqlLGrXIf7fCNiJrXTInX5Hy8viZPR9H")
 
