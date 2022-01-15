@@ -132,7 +132,7 @@ class pyTONPublicAPI:
         params = {"seqno": seqno}
         if workchain_id is not None:
             params["workchain_id"] = workchain_id
-        return self.__request(method, **params).get("result")
+        return self.__request(method, use_address = False, **params).get("result")
 
     def get_server_time(self):
         """
@@ -141,7 +141,7 @@ class pyTONPublicAPI:
         :return:
         """
         method = "getServerTime"
-        return self.__request(method).get("result")
+        return self.__request(method, use_address = False).get("result")
 
     def get_coin_price(self):
         """
@@ -150,4 +150,4 @@ class pyTONPublicAPI:
         :return:
         """
         method = "getCoinPrice"
-        return self.__request(method).get("result")
+        return self.__request(method, use_address = False).get("result")
