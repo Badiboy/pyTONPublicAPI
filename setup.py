@@ -7,7 +7,7 @@ def read(filename):
     with open(filename, encoding='utf-8') as file:
         return file.read()
 
-with open('telebot/version.py', 'r', encoding='utf-8') as f:  # Credits: LonamiWebs
+with open('pyTONPublicAPI/version.py', 'r', encoding='utf-8') as f:  # Credits: LonamiWebs
     version = re.search(r"^__version__\s*=\s*'(.*)'.*$",
                         f.read(), flags=re.MULTILINE).group(1)
 
