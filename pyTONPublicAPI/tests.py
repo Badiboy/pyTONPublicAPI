@@ -11,7 +11,7 @@ def run_and_print(f):
         print(res)
         return res
     except pyTONException as pe:
-        if pe.code == 500:
+        if pe.code in [-3, 500]:
             print("API call failed")
         else:
             raise pe

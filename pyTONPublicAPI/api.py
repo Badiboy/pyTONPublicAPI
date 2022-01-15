@@ -47,7 +47,11 @@ class pyTONPublicAPI:
                 print("None request response")
             raise pyTONException(-2, "None request response")
         elif not resp.get("ok"):
-            if ("error_code" in resp):
+            if ("DOCTYPE" in resp):
+                if self.print_errors:
+                    print("Response: {}".format(resp))
+                raise pyTONException(-3, "Response in HTML")
+            elif ("error_code" in resp):
                 if self.print_errors:
                     print("Response: {}".format(resp))
                 raise pyTONException(resp.get("error_code"), "Error code")
@@ -58,7 +62,7 @@ class pyTONPublicAPI:
             else:
                 if self.print_errors:
                     print("Response: {}".format(resp))
-                raise pyTONException(-3, "Unknown response format, enable 'print_errors' to see response")
+                raise pyTONException(-4, "Unknown response format, enable 'print_errors' to see response")
         else:
             return resp
 
