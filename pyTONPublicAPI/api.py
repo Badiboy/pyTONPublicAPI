@@ -17,15 +17,17 @@ class pyTONPublicAPI:
     """
     api_url = "https://api.ton.sh/"
 
-    def __init__(self, blockchain_id = "mainnet", address = None):
+    def __init__(self, blockchain_id = "mainnet", address = None, print_errors = False):
         """
         Create the pyTONPublicAPI instance.
 
         :param blockchain_id: Identifier of target blockchain ID, either "mainnet" or "test"
-        :param address: (Optional) 	Identifier of target account in TON to use in all queries
+        :param address: (Optional) Identifier of target account in TON to use in all queries
+        :param print_errors: (Optional) Print dumps on request errors
         """
         self.blockchain_id = blockchain_id
         self.address = address
+        self.print_errors = print_errors
 
     def __request(self, method, use_address = True, **kwargs):
         if kwargs:
@@ -41,8 +43,12 @@ class pyTONPublicAPI:
             raise pyTONException(-1, "No address given")
         resp = requests.get(url=self.api_url + method, data=data).json()
         if not resp:
-            raise pyTONException(-1, "None request responce")
+            if self.print_errors:
+                print("None request response")
+            raise pyTONException(-1, "None request response")
         elif not resp.get('ok'):
+            if self.print_errors:
+                print("Response: {}".format(resp))
             raise pyTONException(resp.get('code'), resp.get('description'))
         else:
             return resp
