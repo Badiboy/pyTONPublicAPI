@@ -41,17 +41,26 @@ class pyTONPublicAPI:
                 data = {}
         if use_address and not data.get("address"):
             raise pyTONException(-1, "No address given")
-        resp = requests.get(url=self.api_url + method, data=data).json()
-        if not resp:
+        resp = None
+        try:
+            resp = requests.get(url=self.api_url + method, data=data).json()
+        except ValueError as ve:
+            message = "Response decode failed: {}" + str(ve)
             if self.print_errors:
-                print("None request response")
-            raise pyTONException(-2, "None request response")
+                print(message)
+            raise pyTONException(-2, message)
+        except Exception as e:
+            message = "Request unknown exception: {}" + str(e)
+            if self.print_errors:
+                print(message)
+            raise pyTONException(-3, message)
+        if not resp:
+            message = "None request response"
+            if self.print_errors:
+                print(message)
+            raise pyTONException(-4, message)
         elif not resp.get("ok"):
-            if ("DOCTYPE" in resp):
-                if self.print_errors:
-                    print("Response: {}".format(resp))
-                raise pyTONException(-3, "Response in HTML")
-            elif ("error_code" in resp):
+            if ("error_code" in resp):
                 if self.print_errors:
                     print("Response: {}".format(resp))
                 code = resp.get("error_code")
@@ -65,7 +74,7 @@ class pyTONPublicAPI:
             else:
                 if self.print_errors:
                     print("Response: {}".format(resp))
-                raise pyTONException(-4, "Unknown response format, enable 'print_errors' to see response")
+                raise pyTONException(-5, "Unknown response structure, enable 'print_errors' to see response")
         else:
             return resp
 
