@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.7','3.8','3.9', 'pypy-3.7', 'pypy-3.8', 'pypy-3.9']
+        python-version: [ '3.7','3.8','3.9', 'pypy-3.7', 'pypy-3.8']
     name: ${{ matrix.python-version }} and tests
     steps:
       - uses: actions/checkout@v2
@@ -33,4 +33,4 @@ jobs:
           pip3 install -r requirements.txt
           pip3 install pytest
           python setup.py install
-          cd pyTONPublicAPI && pytest tests.py
+          pytest pyTONPublicAPI/tests.py
