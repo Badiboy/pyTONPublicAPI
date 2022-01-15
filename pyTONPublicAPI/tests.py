@@ -7,7 +7,7 @@ ton_address = "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"
 
 def test_no_address():
     client = pyTONPublicAPI(print_errors=True)
-    print(client.get_address_information(address=ton_address+"XXX"))
+    print(client.get_address_information(address=ton_address))
     print(client.get_transactions(address=ton_address))
     print(client.get_transactions(address=ton_address, limit=1))
     print(client.get_address_balance(address=ton_address))
