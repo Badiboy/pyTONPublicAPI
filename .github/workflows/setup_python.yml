@@ -31,5 +31,6 @@ jobs:
           architecture: x64
       - run: |
           pip3 install -r requirements.txt
+          pip3 install pytest
           python setup.py install
-          python pyTONPublicAPI/tests.py
+          pytest pyTONPublicAPI/tests.py
