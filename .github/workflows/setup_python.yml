@@ -32,5 +32,4 @@ jobs:
       - run: |
           pip3 install -r requirements.txt
           python setup.py install
-          tests.py
-
+          python tests.py
