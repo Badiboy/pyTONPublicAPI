@@ -22,4 +22,9 @@ setup(name='pyTONPublicAPI',
       requires=['requests'],
       license='MIT license',
       keywords="TON Open Network API",
+      classifiers=[
+          'Development Status :: 3 - Alpha',
+          'Programming Language :: Python :: 3',
+          'License :: OSI Approved :: MIT License',
+      ],
 )

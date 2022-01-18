@@ -45,12 +45,12 @@ class pyTONPublicAPI:
         try:
             resp = requests.get(url=self.api_url + method, data=data).json()
         except ValueError as ve:
-            message = "Response decode failed: {}" + str(ve)
+            message = "Response decode failed: {}".format(ve)
             if self.print_errors:
                 print(message)
             raise pyTONException(-2, message)
         except Exception as e:
-            message = "Request unknown exception: {}" + str(e)
+            message = "Request unknown exception: {}".format(e)
             if self.print_errors:
                 print(message)
             raise pyTONException(-3, message)
