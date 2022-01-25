@@ -6,7 +6,7 @@
 Python implementation of TON Public API (https://ton.sh/api) for The Open Network (TON).
 
 # Installation
-Installation using pip (a Python package manager)*:
+Installation using pip (a Python package manager):
 ```
 $ pip install pyTONPublicAPI
 ```
