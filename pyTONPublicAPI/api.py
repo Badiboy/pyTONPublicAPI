@@ -1,5 +1,5 @@
 import requests
-from servers import pyTONAPIServerTonSh
+from .servers import pyTONAPIServerTonSh
 
 
 # noinspection PyPep8Naming
