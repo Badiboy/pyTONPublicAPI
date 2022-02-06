@@ -1,7 +1,8 @@
 try:
-    from pyTONPublicAPI import pyTONPublicAPI, pyTONException
+    from pyTONPublicAPI import pyTONPublicAPI, pyTONException, pyTONAPIServerTonCenter
 except:
     from api import pyTONPublicAPI, pyTONException
+    from servers import pyTONAPIServerTonCenter
 
 ton_address = "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"
 
@@ -19,8 +20,8 @@ def run_and_print(f):
         raise e
     return None
 
-def test_no_address():
-    client = pyTONPublicAPI(print_errors=True)
+def test_no_address(api_server = None):
+    client = pyTONPublicAPI(print_errors=True, api_server=api_server)
     run_and_print(lambda: client.get_address_information(address=ton_address))
     run_and_print(lambda: client.get_transactions(address=ton_address))
     run_and_print(lambda: client.get_transactions(address=ton_address, limit=1))
@@ -29,8 +30,8 @@ def test_no_address():
     uaddress = run_and_print(lambda: client.unpack_address(address=ton_address))
     run_and_print(lambda: client.pack_address(address=uaddress))
 
-def test_with_address():
-    client = pyTONPublicAPI(address=ton_address, print_errors=True)
+def test_with_address(api_server = None):
+    client = pyTONPublicAPI(address=ton_address, print_errors=True, api_server=api_server)
     run_and_print(lambda: client.get_address_information())
     run_and_print(lambda: client.get_transactions())
     run_and_print(lambda: client.get_address_balance())
@@ -38,8 +39,8 @@ def test_with_address():
     uaddress = run_and_print(lambda: client.unpack_address())
     run_and_print(lambda: client.pack_address(address=uaddress))
 
-def test_general_functions():
-    client = pyTONPublicAPI(print_errors=True)
+def test_general_functions(api_server = None):
+    client = pyTONPublicAPI(print_errors=True, api_server=api_server)
     run_and_print(lambda: client.get_block_information(100))
     run_and_print(lambda: client.get_server_time())
     run_and_print(lambda: client.get_coin_price())
@@ -47,3 +48,6 @@ def test_general_functions():
 test_no_address()
 test_with_address()
 test_general_functions()
+
+test_no_address(api_server=pyTONAPIServerTonCenter())
+test_with_address(api_server=pyTONAPIServerTonCenter())

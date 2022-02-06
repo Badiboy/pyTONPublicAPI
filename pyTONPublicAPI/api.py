@@ -1,4 +1,5 @@
 import requests
+from servers import pyTONAPIServerTonSh
 
 
 # noinspection PyPep8Naming
@@ -13,11 +14,9 @@ class pyTONException(Exception):
 class pyTONPublicAPI:
     """
     TON Public API Client
-    https://ton.sh/api
     """
-    api_url = "https://api.ton.sh/"
 
-    def __init__(self, blockchain_id = "mainnet", address = None, print_errors = False):
+    def __init__(self, blockchain_id = "mainnet", address = None, print_errors = False, api_server = None):
         """
         Create the pyTONPublicAPI instance.
 
@@ -25,6 +24,7 @@ class pyTONPublicAPI:
         :param address: (Optional) Identifier of target account in TON to use in all queries
         :param print_errors: (Optional) Print dumps on request errors
         """
+        self.api_server = api_server if api_server else pyTONAPIServerTonSh()
         self.blockchain_id = blockchain_id
         self.address = address
         self.print_errors = print_errors
@@ -32,18 +32,15 @@ class pyTONPublicAPI:
     def __request(self, method, use_address = True, **kwargs):
         if kwargs:
             data = dict(kwargs)
-            if use_address and not data.get("address"):
-                data["address"] = self.address
         else:
-            if use_address:
-                data = {"address": self.address}
-            else:
-                data = {}
+            data = {}
+        if use_address and not data.get("address"):
+            data["address"] = self.address
         if use_address and not data.get("address"):
             raise pyTONException(-1, "No address given")
-        resp = None
+        self.api_server.add_parameters(data)
         try:
-            resp = requests.get(url=self.api_url + method, data=data).json()
+            resp = requests.get(url=self.api_server.api_url + method, params=data, ).json()
         except ValueError as ve:
             message = "Response decode failed: {}".format(ve)
             if self.print_errors:
