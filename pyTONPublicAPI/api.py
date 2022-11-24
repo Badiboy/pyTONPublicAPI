@@ -16,7 +16,7 @@ class pyTONPublicAPI:
     TON Public API Client
     """
 
-    def __init__(self, blockchain_id = "mainnet", address = None, print_errors = False, api_server = None):
+    def __init__(self, blockchain_id = "mainnet", address = None, print_errors = False, api_server = None, timeout = None):
         """
         Create the pyTONPublicAPI instance.
 
@@ -24,10 +24,11 @@ class pyTONPublicAPI:
         :param address: (Optional) Identifier of target account in TON to use in all queries
         :param print_errors: (Optional) Print dumps on request errors
         """
-        self.api_server = api_server if api_server else pyTONAPIServerTonSh()
         self.blockchain_id = blockchain_id
         self.address = address
         self.print_errors = print_errors
+        self.api_server = api_server if api_server else pyTONAPIServerTonSh()
+        self.timeout = timeout
 
     def __request(self, method, use_address = True, **kwargs):
         if kwargs:
@@ -40,7 +41,7 @@ class pyTONPublicAPI:
             raise pyTONException(-1, "No address given")
         self.api_server.add_parameters(data)
         try:
-            resp = requests.get(url=self.api_server.api_url + method, params=data, ).json()
+            resp = requests.get(url=self.api_server.api_url + method, params=data, timeout=self.timeout).json()
         except ValueError as ve:
             message = "Response decode failed: {}".format(ve)
             if self.print_errors:
