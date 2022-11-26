@@ -42,21 +42,26 @@ class pyTONPublicAPI:
         self.api_server.add_parameters(data)
         try:
             resp = requests.get(url=self.api_server.api_url + method, params=data, timeout=self.timeout).json()
-        except ValueError as ve:
-            message = "Response decode failed: {}".format(ve)
+        except ValueError as e:
+            message = "Response decode failed: {}".format(e)
             if self.print_errors:
                 print(message)
             raise pyTONException(-2, message)
-        except Exception as e:
-            message = "Request unknown exception: {}".format(e)
+        except requests.ReadTimeout as e:
+            message = "Read timed out"
             if self.print_errors:
                 print(message)
             raise pyTONException(-3, message)
+        except Exception as e:
+            message = "Request unknown exception: {}, {}".format(type(e).__name__, e)
+            if self.print_errors:
+                print(message)
+            raise pyTONException(-98, message)
         if not resp:
             message = "None request response"
             if self.print_errors:
                 print(message)
-            raise pyTONException(-4, message)
+            raise pyTONException(-99, message)
         elif not resp.get("ok"):
             if ("error_code" in resp):
                 if self.print_errors:
