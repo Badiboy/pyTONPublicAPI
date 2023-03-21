@@ -62,9 +62,7 @@ class pyTONAPIServerTonAPI(pyTONAPIServer):
     def __init__(self, api_key = None):
         super().__init__(pyTONAPIServerTypes.TonCenter, "https://tonapi.io/v1/")
         self.api_key = api_key
-        self.parameters_subst |= {
-            "address": "account",
-        }
+        self.parameters_subst["address"] = "account"
 
     def add_headers(self, headers):
         if self.api_key:

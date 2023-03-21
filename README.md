@@ -6,9 +6,11 @@
 Python implementation of TON Public API for The Open Network (TON).
 
 # Supported API servers
-* [TON.sh Public API](https://ton.sh/api/) - full
-* [TON Center TON API](https://toncenter.com/api/v2/) - partial, will be extended
-* [Testnet TON Center TON API](https://testnet.toncenter.com/api/v2/) - partial, will be extended
+* [TON.sh](https://ton.sh/api/) - full
+* [TON Center](https://toncenter.com/api/v2/) - partial, will be extended
+* [TON Center Testnet](https://testnet.toncenter.com/api/v2/) - partial, will be extended
+* [TON API](https://tonapi.io/v1/) - partial, will be extended
+* [TON API Testnet](https://testnet.tonapi.io/v1/) - partial, will be extended
 
 # Installation
 Installation using pip (a Python package manager):
@@ -47,21 +49,38 @@ from pyTONPublicAPI import pyTONPublicAPI, pyTONAPIServerTonCenter
 api_server=pyTONAPIServerTonCenter()
 client = pyTONPublicAPI(api_server=api_server)
 ```
+
 ## Ton.sh
 Class
 * pyTONAPIServerTonSh
 
 Additional constructor paramters:
 * blockchain_id - Identifier of target blockchain ID, either "mainnet" or "test". Default is "None", so default begaviour is up to API server.
+
 ## Ton Center
 Class
 * pyTONAPIServerTonCenter
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
-## Testnet Ton Center
+
+## Ton Center Testnet
 Class
 * pyTONAPIServerTonCenterTest
+
+Additional constructor paramters:
+* api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
+
+## TON API
+Class
+* pyTONAPIServerTonAPI
+
+Additional constructor paramters:
+* api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
+
+## TON API Testnet
+Class
+* pyTONAPIServerTonAPITest
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
