@@ -112,7 +112,7 @@ class pyTONPublicAPI:
         :return:
         """
         if self.__is_tonapi_server():
-            return self.get_info(address = address)
+            return self.account_get_info(address = address)
 
         method = "getAddressInformation"
         return self.__request(method, address = address).get("result")
@@ -164,7 +164,7 @@ class pyTONPublicAPI:
         :return: balance
         """
         if self.__is_tonapi_server():
-            return self.get_info(address = address).get("balance")
+            return self.account_get_info(address = address).get("balance")
 
         method = "getAddressBalance"
         return self.__request(method, address = address).get("result")
@@ -177,7 +177,7 @@ class pyTONPublicAPI:
         :return: state
         """
         if self.__is_tonapi_server():
-            return self.get_info(address = address).get("status")
+            return self.account_get_info(address = address).get("status")
 
         method = "getAddressState"
         return self.__request(method, address = address).get("result")
@@ -432,16 +432,48 @@ class pyTONPublicAPI:
         if params:
             return self.__request(method, **params).get("result")
 
-    def get_info(self, address = None):
+    def account_get_info(self, address = None):
         """
-        getInfo
+        account/getInfo
         Get info about account
         Equivalent: get_address_information
-        :param address: Identifier of target account in TON
+        :param address: address in raw (hex without 0x) or base64url format
         :return:
         """
         if not self.__is_tonapi_server():
             return self.get_address_information(address = address)
 
         method = "account/getInfo"
+        return self.__request(method, address = address)
+
+    def jetton_get_balances(self, address = None):
+        """
+        jetton/getBalances
+        Get all Jettons balances by owner address
+        :param address: address in raw (hex without 0x) or base64url format
+        :return:
+        """
+        method = "jetton/getBalances"
+        return self.__request(method, address = address)
+
+    def jetton_get_history(self, address = None, jetton_master = None, limit = 100):
+        """
+        jetton/getHistory
+        Get all Jetton transfers for account
+        :param address: address in raw (hex without 0x) or base64url format
+        :param jetton_master: (Optional) Jetton master address
+        :param limit: (Optional) Limit of transactions
+        :return:
+        """
+        method = "jetton/getHistory"
+        return self.__request(method, address = address, jetton_master = jetton_master, limit = limit)
+
+    def jetton_get_info(self, address = None):
+        """
+        jetton/getInfo
+        Get jetton metadata by jetton master address
+        :param address: address in raw (hex without 0x) or base64url format
+        :return:
+        """
+        method = "jetton/getInfo"
         return self.__request(method, address = address)

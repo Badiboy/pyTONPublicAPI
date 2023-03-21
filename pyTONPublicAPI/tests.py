@@ -40,16 +40,16 @@ def test_with_address(api_server = None):
     run_and_print(lambda: client.get_address_state())
     run_and_print(lambda: client.get_transactions())
 
-def test_tonsh_functions(api_server = None):
-    client = pyTONPublicAPI(print_errors=True, api_server=api_server)
+def test_tonsh_functions():
+    client = pyTONPublicAPI(print_errors=True, api_server=pyTONAPIServerTonSh())
     uaddress = run_and_print(lambda: client.unpack_address(address=ton_address))
     run_and_print(lambda: client.pack_address(address=uaddress))
     run_and_print(lambda: client.get_block_information(100))
     run_and_print(lambda: client.get_server_time())
     run_and_print(lambda: client.get_coin_price())
 
-def test_toncenter_functions(api_server = None):
-    client = pyTONPublicAPI(address=ton_address, print_errors=True, api_server=api_server)
+def test_toncenter_functions():
+    client = pyTONPublicAPI(address=ton_address, print_errors=True, api_server=pyTONAPIServerTonCenter())
     uaddress = run_and_print(lambda: client.unpack_address(address=ton_address))
     run_and_print(lambda: client.pack_address(address=uaddress))
     run_and_print(lambda: client.get_extended_address_information())
@@ -64,6 +64,13 @@ def test_toncenter_functions(api_server = None):
     #Returns 503 error run_and_print(lambda: client.try_locate_result_tx(ton_address, ton_address, 1))
     #Returns 503 error run_and_print(lambda: client.try_locate_source_tx(ton_address, ton_address, 1))
 
+def test_tonapi_functions():
+    client = pyTONPublicAPI(address=ton_address, print_errors=True, api_server=pyTONAPIServerTonAPI())
+    run_and_print(lambda: client.account_get_info(address=ton_address))
+    run_and_print(lambda: client.jetton_get_balances(address=ton_address))
+    run_and_print(lambda: client.jetton_get_history(address=ton_address, limit=10))
+    run_and_print(lambda: client.jetton_get_info(address="EQCt1ZIrhvcZn2iw4DMrkHhSmlJNpC063ykc2fIzzmLBuZ14"))
+
 test_no_address(api_server=pyTONAPIServerTonSh())
 test_with_address(api_server=pyTONAPIServerTonSh())
 
@@ -73,5 +80,6 @@ test_with_address(api_server=pyTONAPIServerTonCenter())
 test_no_address(api_server=pyTONAPIServerTonAPI())
 test_with_address(api_server=pyTONAPIServerTonAPI())
 
-test_tonsh_functions(api_server=pyTONAPIServerTonSh())
-test_toncenter_functions(api_server=pyTONAPIServerTonCenter())
+test_tonsh_functions()
+test_toncenter_functions()
+test_tonapi_functions()
