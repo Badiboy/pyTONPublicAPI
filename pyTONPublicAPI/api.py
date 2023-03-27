@@ -454,7 +454,7 @@ class pyTONPublicAPI:
         :return:
         """
         method = "jetton/getBalances"
-        return self.__request(method, address = address)
+        return self.__request(method, address = address).get("balances")
 
     def jetton_get_history(self, address = None, jetton_master = None, limit = 100):
         """
@@ -466,7 +466,7 @@ class pyTONPublicAPI:
         :return:
         """
         method = "jetton/getHistory"
-        return self.__request(method, address = address, jetton_master = jetton_master, limit = limit)
+        return self.__request(method, address = address, jetton_master = jetton_master, limit = limit).get("events")
 
     def jetton_get_info(self, address = None):
         """
