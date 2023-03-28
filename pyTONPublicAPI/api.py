@@ -92,7 +92,8 @@ class pyTONPublicAPI:
             code = resp.get("statusCode")
             if isinstance(code, str) and code.isdigit():
                 code = int(code)
-            raise pyTONException(code, "Error code returned")
+            description = resp.get("error") + ". " + resp.get("message")
+            raise pyTONException(code, description)
         elif ("code" in resp) or ("message" in resp):
             if self.print_errors:
                 print("Response: {}".format(resp))
