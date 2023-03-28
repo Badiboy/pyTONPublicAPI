@@ -1,10 +1,10 @@
 import inspect
 from time import sleep
 try:
-    from pyTONPublicAPI import pyTONPublicAPI, pyTONException, pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI
+    from pyTONPublicAPI import pyTONPublicAPI, pyTONException, pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
 except:
     from api import pyTONPublicAPI, pyTONException
-    from servers import pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI
+    from servers import pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
 
 ton_address = "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"
 
@@ -71,6 +71,11 @@ def test_tonapi_functions():
     run_and_print(lambda: client.jetton_get_history(address=ton_address, limit=10))
     run_and_print(lambda: client.jetton_get_info(address="EQCt1ZIrhvcZn2iw4DMrkHhSmlJNpC063ykc2fIzzmLBuZ14"))
 
+def test_cat_functions():
+    client = pyTONPublicAPI(print_errors=True, api_server=pyTONAPIServerCAT())
+    run_and_print(lambda: client.get_transactions(address=ton_address))
+    run_and_print(lambda: client.get_transactions(address=ton_address, limit=1))
+
 test_no_address(api_server=pyTONAPIServerTonSh())
 test_with_address(api_server=pyTONAPIServerTonSh())
 
@@ -83,3 +88,4 @@ test_with_address(api_server=pyTONAPIServerTonAPI())
 test_tonsh_functions()
 test_toncenter_functions()
 test_tonapi_functions()
+test_cat_functions()

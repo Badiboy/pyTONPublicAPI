@@ -1,3 +1,4 @@
+import requests
 from enum import Enum
 from abc import ABC
 
@@ -24,6 +25,9 @@ class pyTONAPIServer(ABC):
             if source_name in params:
                 params[dest_name] = params[source_name]
                 del params[source_name]
+
+    def request_get(self, method = None, headers=None, params=None, timeout=None):
+        return requests.get(url=self.api_url + method, headers=headers, params=params, timeout=timeout).json()
 
 
 # noinspection PyPep8Naming
@@ -74,3 +78,14 @@ class pyTONAPIServerTonAPITest(pyTONAPIServerTonAPI):
     def __init__(self, api_key = None):
         super().__init__(api_key = api_key)
         self.api_url = "https://testnet.tonapi.io/v1/"
+
+
+# noinspection PyPep8Naming
+class pyTONAPIServerCAT(pyTONAPIServer):
+    def __init__(self):
+        super().__init__(pyTONAPIServerTypes.TonCenter, "https://api.ton.cat/v2/contracts/")
+
+    def request_get(self, method = None, headers=None, params=None, timeout=None):
+        method = method.replace("%address%", params["address"])
+        params.pop("address")
+        return requests.get(url=self.api_url + method, headers=headers, params=params, timeout=timeout).json()

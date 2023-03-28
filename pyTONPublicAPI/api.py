@@ -1,4 +1,3 @@
-import requests
 from .servers import *
 
 
@@ -48,7 +47,7 @@ class pyTONPublicAPI:
         self.api_server.add_parameters(data)
 
         try:
-            resp = requests.get(url=self.api_server.api_url + method, headers=headers, params=data, timeout=self.timeout).json()
+            resp = self.api_server.request_get(method=method, headers=headers, params=data, timeout=self.timeout)
         except ValueError as e:
             message = "Response decode failed: {}".format(e)
             if self.print_errors:
@@ -71,7 +70,9 @@ class pyTONPublicAPI:
                 print(message)
             raise pyTONException(-99, message)
 
-        if self.__is_tonapi_server():
+        if isinstance(resp, list):
+            return resp
+        elif self.__is_tonapi_server():
             if not resp.get("message"):
                 return resp
         else:
@@ -82,6 +83,13 @@ class pyTONPublicAPI:
             if self.print_errors:
                 print("Response: {}".format(resp))
             code = resp.get("error_code")
+            if isinstance(code, str) and code.isdigit():
+                code = int(code)
+            raise pyTONException(code, "Error code returned")
+        elif ("statusCode" in resp):
+            if self.print_errors:
+                print("Response: {}".format(resp))
+            code = resp.get("statusCode")
             if isinstance(code, str) and code.isdigit():
                 code = int(code)
             raise pyTONException(code, "Error code returned")
@@ -118,7 +126,7 @@ class pyTONPublicAPI:
         return self.__request(method, address = address).get("result")
 
     # noinspection PyShadowingBuiltins
-    def get_transactions(self, address = None, limit = None, lt = None, hash = None, to_lt = None, archival = None):
+    def get_transactions(self, address = None, limit = None, lt = None, hash = None, to_lt = None, archival = None, offset = None):
         """
         getTransactions
         Use this method to get balance (in nanotons) and state of a given address.
@@ -128,6 +136,7 @@ class pyTONPublicAPI:
         :param hash: (Optional) Hash of transaction to start with, must be sent with lt
         :param to_lt: (Optional, not all servers supports) Logical time of transaction to finish with (to get tx from lt to to_lt).
         :param archival: (Optional, not all servers supports) By default getTransaction request is processed by any available liteserver. If archival=true only liteservers with full history are used.
+        :param offset: (Optional, not all servers supports) Offset of transaction to start with
         :return:
         """
         params = {}
@@ -138,6 +147,11 @@ class pyTONPublicAPI:
                 params["minLt"] = lt
             if to_lt is not None:
                 params["maxLt"] = to_lt
+        elif isinstance(self.api_server, pyTONAPIServerCAT):
+            method = "address/%address%/transactions"
+            return_name = ""
+            if offset is not None:
+                params["offset"] = offset
         else:
             method = "getTransactions"
             return_name = "result"
@@ -151,10 +165,12 @@ class pyTONPublicAPI:
             params["hash"] = hash
         if archival is not None:
             params["archival"] = archival
-        if params:
-            return self.__request(method, address = address, **params).get(return_name)
+        if offset is not None:
+            params["offset"] = offset
+        if return_name:
+            return self.__request(method, address=address, **params).get(return_name)
         else:
-            return self.__request(method, address = address).get(return_name)
+            return self.__request(method, address = address, **params)
 
     def get_address_balance(self, address = None):
         """
@@ -211,7 +227,9 @@ class pyTONPublicAPI:
         :return: Identifier in human-readable format
         """
         method = "getBlockInformation"
-        params = {"seqno": seqno}
+        params = {
+            "seqno": seqno
+        }
         if workchain_id is not None:
             params["workchain_id"] = workchain_id
         return self.__request(method, use_address = False, **params).get("result")
@@ -304,8 +322,7 @@ class pyTONPublicAPI:
             params["lt"] = lt
         if unixtime is not None:
             params["unixtime"] = unixtime
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def shards(self, seqno):
         """
@@ -318,8 +335,7 @@ class pyTONPublicAPI:
         params = {
             "seqno": seqno,
         }
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def get_block_transactions(self, workchain, shard, seqno, root_hash = None, file_hash = None, after_lt = None, after_hash = None, count = None):
         """
@@ -351,8 +367,7 @@ class pyTONPublicAPI:
             params["after_hash"] = after_hash
         if count is not None:
             params["count"] = count
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def get_block_header(self, workchain, shard, seqno, root_hash = None, file_hash = None):
         """
@@ -375,8 +390,7 @@ class pyTONPublicAPI:
             params["root_hash"] = root_hash
         if file_hash is not None:
             params["file_hash"] = file_hash
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def try_locate_tx(self, source, destination, created_lt):
         """
@@ -393,8 +407,7 @@ class pyTONPublicAPI:
             "destination": destination,
             "created_lt": created_lt,
         }
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def try_locate_result_tx(self, source, destination, created_lt):
         """
@@ -411,8 +424,7 @@ class pyTONPublicAPI:
             "destination": destination,
             "created_lt": created_lt,
         }
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def try_locate_source_tx(self, source, destination, created_lt):
         """
@@ -429,8 +441,7 @@ class pyTONPublicAPI:
             "destination": destination,
             "created_lt": created_lt,
         }
-        if params:
-            return self.__request(method, **params).get("result")
+        return self.__request(method, **params).get("result")
 
     def account_get_info(self, address = None):
         """
@@ -462,11 +473,16 @@ class pyTONPublicAPI:
         Get all Jetton transfers for account
         :param address: address in raw (hex without 0x) or base64url format
         :param jetton_master: (Optional) Jetton master address
-        :param limit: (Optional) Limit of transactions
+        :param limit: Limit of transactions (default = 100)
         :return:
         """
         method = "jetton/getHistory"
-        return self.__request(method, address = address, jetton_master = jetton_master, limit = limit).get("events")
+        params = {
+            "limit": limit,
+        }
+        if jetton_master:
+            params["jetton_master"] = jetton_master
+        return self.__request(method, address = address, **params).get("events")
 
     def jetton_get_info(self, address = None):
         """
