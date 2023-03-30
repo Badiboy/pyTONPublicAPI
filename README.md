@@ -51,39 +51,49 @@ client = pyTONPublicAPI(api_server=api_server)
 ```
 
 ## Ton.sh
-Class
-* pyTONAPIServerTonSh
+Site: https://ton.sh/api
+
+Class: **pyTONAPIServerTonSh**
 
 Additional constructor paramters:
 * blockchain_id - Identifier of target blockchain ID, either "mainnet" or "test". Default is "None", so default begaviour is up to API server.
 
 ## Ton Center
-Class
-* pyTONAPIServerTonCenter
+Site: https://toncenter.com/api/v2
+
+Class: **pyTONAPIServerTonCenter**
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## Ton Center Testnet
-Class
-* pyTONAPIServerTonCenterTest
+Site: https://testnet.toncenter.com/api/v2
+
+Class: **pyTONAPIServerTonCenterTest**
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## TON API
-Class
-* pyTONAPIServerTonAPI
+Site: https://tonapi.io
+
+Class: **pyTONAPIServerTonAPI**
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## TON API Testnet
-Class
-* pyTONAPIServerTonAPITest
+Site: https://testnet.tonapi.io
+
+Class: **pyTONAPIServerTonAPITest**
 
 Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
+
+## TON CAT
+Site: https://ton.cat
+
+Class: **pyTONAPIServerCAT**
 
 # Notes
 1. API servers support different subset of commands. Check correspondent API specification before use.   
