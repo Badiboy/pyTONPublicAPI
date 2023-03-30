@@ -6,12 +6,12 @@
 Python implementation of TON Public API for The Open Network (TON).
 
 # Supported API servers
-* [TON.sh](https://ton.sh/api) - full
-* [TON Center](https://toncenter.com/api/v2) - partial, will be extended
-* [TON Center Testnet](https://testnet.toncenter.com/api/v2) - partial, will be extended
-* [TON API](https://tonapi.io) - partial, will be extended
-* [TON API Testnet](https://testnet.tonapi.io) - partial, will be extended
-* [TON CAT](https://ton.cat) - partial, will be extended
+* [TON.sh](https://ton.sh/api/) - full
+* [TON Center](https://toncenter.com/api/v2/) - partial, will be extended
+* [TON Center Testnet](https://testnet.toncenter.com/api/v2/) - partial, will be extended
+* [TON API](https://tonapi.io/) - partial, will be extended
+* [TON API Testnet](https://testnet.tonapi.io/) - partial, will be extended
+* [TON CAT](https://ton.cat/) - partial, will be extended
 
 # Installation
 Installation using pip (a Python package manager):
@@ -52,7 +52,7 @@ client = pyTONPublicAPI(api_server=api_server)
 ```
 
 ## Ton.sh
-Site: https://ton.sh/api
+Site: https://ton.sh/api/
 
 Class: **pyTONAPIServerTonSh**
 
@@ -60,7 +60,7 @@ Additional constructor paramters:
 * blockchain_id - Identifier of target blockchain ID, either "mainnet" or "test". Default is "None", so default begaviour is up to API server.
 
 ## Ton Center
-Site: https://toncenter.com/api/v2
+Site: https://toncenter.com/api/v2/
 
 Class: **pyTONAPIServerTonCenter**
 
@@ -68,7 +68,7 @@ Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## Ton Center Testnet
-Site: https://testnet.toncenter.com/api/v2
+Site: https://testnet.toncenter.com/api/v2/
 
 Class: **pyTONAPIServerTonCenterTest**
 
@@ -76,7 +76,7 @@ Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## TON API
-Site: https://tonapi.io
+Site: https://tonapi.io/
 
 Class: **pyTONAPIServerTonAPI**
 
@@ -84,7 +84,7 @@ Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## TON API Testnet
-Site: https://testnet.tonapi.io
+Site: https://testnet.tonapi.io/
 
 Class: **pyTONAPIServerTonAPITest**
 
@@ -92,7 +92,7 @@ Additional constructor paramters:
 * api_key - Authentication key. Using API without API key is limited to 1 request per second. Default is "None", so API is used without API key.
 
 ## TON CAT
-Site: https://ton.cat
+Site: https://ton.cat/
 
 Class: **pyTONAPIServerCAT**
 
