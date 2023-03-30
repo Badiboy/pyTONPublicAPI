@@ -6,11 +6,12 @@
 Python implementation of TON Public API for The Open Network (TON).
 
 # Supported API servers
-* [TON.sh](https://ton.sh/api/) - full
-* [TON Center](https://toncenter.com/api/v2/) - partial, will be extended
-* [TON Center Testnet](https://testnet.toncenter.com/api/v2/) - partial, will be extended
-* [TON API](https://tonapi.io/v1/) - partial, will be extended
-* [TON API Testnet](https://testnet.tonapi.io/v1/) - partial, will be extended
+* [TON.sh](https://ton.sh/api) - full
+* [TON Center](https://toncenter.com/api/v2) - partial, will be extended
+* [TON Center Testnet](https://testnet.toncenter.com/api/v2) - partial, will be extended
+* [TON API](https://tonapi.io) - partial, will be extended
+* [TON API Testnet](https://testnet.tonapi.io) - partial, will be extended
+* [TON CAT](https://ton.cat) - partial, will be extended
 
 # Installation
 Installation using pip (a Python package manager):
