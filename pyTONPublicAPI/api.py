@@ -79,14 +79,14 @@ class pyTONPublicAPI:
             if resp.get("ok"):
                 return resp
 
-        if ("error_code" in resp):
+        if "error_code" in resp:
             if self.print_errors:
                 print("Response: {}".format(resp))
             code = resp.get("error_code")
             if isinstance(code, str) and code.isdigit():
                 code = int(code)
             raise pyTONException(code, "Error code returned")
-        elif ("statusCode" in resp):
+        elif "statusCode" in resp:
             if self.print_errors:
                 print("Response: {}".format(resp))
             code = resp.get("statusCode")

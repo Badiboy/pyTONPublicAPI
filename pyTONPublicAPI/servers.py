@@ -8,6 +8,7 @@ class pyTONAPIServerTypes(Enum):
     TonSh = 1
     TonCenter = 2
     TonAPI = 3
+    TonCAT = 4
 
 
 # noinspection PyPep8Naming
@@ -27,7 +28,8 @@ class pyTONAPIServer(ABC):
                 del params[source_name]
 
     def request_get(self, method = None, headers=None, params=None, timeout=None):
-        return requests.get(url=self.api_url + method, headers=headers, params=params, timeout=timeout).json()
+        result = requests.get(url=self.api_url + method, headers=headers, params=params, timeout=timeout)
+        return result.json()
 
 
 # noinspection PyPep8Naming
@@ -64,8 +66,8 @@ class pyTONAPIServerTonCenterTest(pyTONAPIServerTonCenter):
 # noinspection PyPep8Naming
 class pyTONAPIServerTonAPI(pyTONAPIServer):
     def __init__(self, api_key = None):
-        super().__init__(pyTONAPIServerTypes.TonCenter, "https://tonapi.io/v1/")
         self.api_key = api_key
+        super().__init__(pyTONAPIServerTypes.TonAPI, "https://tonapi.io/v2/")
         self.parameters_subst["address"] = "account"
 
     def add_headers(self, headers):
@@ -83,7 +85,7 @@ class pyTONAPIServerTonAPITest(pyTONAPIServerTonAPI):
 # noinspection PyPep8Naming
 class pyTONAPIServerCAT(pyTONAPIServer):
     def __init__(self):
-        super().__init__(pyTONAPIServerTypes.TonCenter, "https://api.ton.cat/v2/contracts/")
+        super().__init__(pyTONAPIServerTypes.TonCAT, "https://api.ton.cat/v2/contracts/")
 
     def request_get(self, method = None, headers=None, params=None, timeout=None):
         method = method.replace("%address%", params["address"])
