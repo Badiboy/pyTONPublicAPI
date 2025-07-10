@@ -26,7 +26,7 @@ class pyTONPublicAPI:
         self.blockchain_id = blockchain_id
         self.address = address
         self.print_errors = print_errors
-        self.api_server = api_server if api_server else pyTONAPIServerTonSh()
+        self.api_server = api_server if api_server else pyTONAPIServerTonCenter()
         self.timeout = timeout
 
     def __is_tonapi_server(self):

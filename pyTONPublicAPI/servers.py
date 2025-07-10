@@ -5,7 +5,6 @@ from abc import ABC
 
 # noinspection PyPep8Naming
 class pyTONAPIServerTypes(Enum):
-    TonSh = 1
     TonCenter = 2
     TonAPI = 3
     TonCAT = 4
@@ -30,18 +29,6 @@ class pyTONAPIServer(ABC):
     def request_get(self, method = None, headers=None, params=None, timeout=None):
         result = requests.get(url=self.api_url + method, headers=headers, params=params, timeout=timeout)
         return result.json()
-
-
-# noinspection PyPep8Naming
-class pyTONAPIServerTonSh(pyTONAPIServer):
-    def __init__(self, blockchain_id = None):
-        super().__init__(pyTONAPIServerTypes.TonSh, "https://api.ton.sh/")
-        self.blockchain_id = blockchain_id
-
-    def add_parameters(self, params):
-        super().add_parameters(params)
-        if self.blockchain_id:
-            params["blockchain_id"] = self.blockchain_id
 
 
 # noinspection PyPep8Naming

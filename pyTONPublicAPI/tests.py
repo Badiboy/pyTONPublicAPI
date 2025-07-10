@@ -1,10 +1,10 @@
 import inspect
 from time import sleep
 try:
-    from pyTONPublicAPI import pyTONPublicAPI, pyTONException, pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
+    from pyTONPublicAPI import pyTONPublicAPI, pyTONException, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
 except:
     from api import pyTONPublicAPI, pyTONException
-    from servers import pyTONAPIServerTonSh, pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
+    from servers import pyTONAPIServerTonCenter, pyTONAPIServerTonAPI, pyTONAPIServerCAT
 
 ton_address = "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"
 
@@ -40,14 +40,6 @@ def test_with_address(api_server = None):
     run_and_print(lambda: client.get_address_state())
     run_and_print(lambda: client.get_transactions())
 
-def test_tonsh_functions():
-    client = pyTONPublicAPI(print_errors=True, api_server=pyTONAPIServerTonSh())
-    uaddress = run_and_print(lambda: client.unpack_address(address=ton_address))
-    run_and_print(lambda: client.pack_address(address=uaddress))
-    run_and_print(lambda: client.get_block_information(100))
-    run_and_print(lambda: client.get_server_time())
-    run_and_print(lambda: client.get_coin_price())
-
 def test_toncenter_functions():
     client = pyTONPublicAPI(address=ton_address, print_errors=True, api_server=pyTONAPIServerTonCenter())
     uaddress = run_and_print(lambda: client.unpack_address(address=ton_address))
@@ -76,16 +68,12 @@ def test_cat_functions():
     run_and_print(lambda: client.get_transactions(address=ton_address))
     run_and_print(lambda: client.get_transactions(address=ton_address, limit=1))
 
-test_no_address(api_server=pyTONAPIServerTonSh())
-test_with_address(api_server=pyTONAPIServerTonSh())
-
 test_no_address(api_server=pyTONAPIServerTonCenter())
 test_with_address(api_server=pyTONAPIServerTonCenter())
 
 test_no_address(api_server=pyTONAPIServerTonAPI())
 test_with_address(api_server=pyTONAPIServerTonAPI())
 
-test_tonsh_functions()
 test_toncenter_functions()
 test_tonapi_functions()
 test_cat_functions()
